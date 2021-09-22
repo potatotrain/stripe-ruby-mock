@@ -48,11 +48,11 @@ module StripeMock
 
         # TODO: Implement coupon logic
 
-        if (((plan && plan[:trial_period_days]) || 0) == 0 && options[:trial_end].nil?) || options[:trial_end] == "now"
+        if (((plan && (plan[:trial_period_days] || plan.dig(:recurring, :trial_period_days))) || 0) == 0 && options[:trial_end].nil?) || options[:trial_end] == "now"
           end_time = options[:billing_cycle_anchor] || get_ending_time(start_time, plan)
           params.merge!({status: 'active', current_period_end: end_time, trial_start: nil, trial_end: nil, billing_cycle_anchor: options[:billing_cycle_anchor] || created_time})
         else
-          end_time = options[:trial_end] || (Time.now.utc.to_i + plan[:trial_period_days]*86400)
+          end_time = options[:trial_end] || (Time.now.utc.to_i + (plan[:trial_period_days] || plan.dig(:recurring, :trial_period_days))*86400)
           params.merge!({status: 'trialing', current_period_end: end_time, trial_start: start_time, trial_end: end_time, billing_cycle_anchor: options[:billing_cycle_anchor] || created_time})
         end
 
