@@ -449,7 +449,11 @@ module StripeMock
         charge: nil,
         discount: nil,
         subscription: nil,
-        total_discount_amounts: []
+        total_discount_amounts: [],
+        account_name: nil,
+        collection_method: 'charge_automatically',
+        billing_reason: 'manual',
+        amount_remaining: 0
       }.merge(params)
       if invoice[:discount]
         invoice[:total] = [0, invoice[:subtotal] - invoice[:discount][:coupon][:amount_off]].max if invoice[:discount][:coupon][:amount_off]
@@ -483,9 +487,11 @@ module StripeMock
             amount: 10
           }
         ],
+        tax_rates: [],
         quantity: nil,
         subscription: nil,
         plan: nil,
+        price: nil,
         description: "Test invoice item",
         metadata: {}
       }.merge(params)
@@ -1279,7 +1285,7 @@ module StripeMock
           fingerprint: 'Hr3Ly5z5IYxsokWA',
           funding: 'credit',
           generated_from: nil,
-          last4: params.dig(:card, :number)&.[](-4..) || '3155',
+          last4: params.dig(:card, :number)&.[](-4..-1) || '3155',
           three_d_secure_usage: { supported: true },
           wallet: nil
         },
@@ -1294,7 +1300,7 @@ module StripeMock
           branch_code: '',
           country: 'DE',
           fingerprint: 'FD81kbVPe7M05BMj',
-          last4: params.dig(:sepa_debit, :iban)&.[](-4..) || '3000'
+          last4: params.dig(:sepa_debit, :iban)&.[](-4..-1) || '3000'
         }
       }
 
