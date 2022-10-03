@@ -453,7 +453,9 @@ module StripeMock
         account_name: nil,
         collection_method: 'charge_automatically',
         billing_reason: 'manual',
-        amount_remaining: 0
+        amount_remaining: 0,
+        application: nil,
+        application_fee_amount: 0,
       }.merge(params)
       if invoice[:discount]
         invoice[:total] = [0, invoice[:subtotal] - invoice[:discount][:coupon][:amount_off]].max if invoice[:discount][:coupon][:amount_off]
