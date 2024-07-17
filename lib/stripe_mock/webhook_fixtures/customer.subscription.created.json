@@ -58,6 +58,7 @@
       "ended_at": null,
       "trial_start": null,
       "trial_end": null,
+      "cancel_at": null,
       "canceled_at": null,
       "quantity": 1,
       "application_fee_percent": null,
